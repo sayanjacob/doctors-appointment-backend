@@ -12,7 +12,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public AppointmentEntity createAppointment(AppointmentEntity appointmentEntity) {
 		
-		return ;
+		return null;
 	}
 
 	@Override
