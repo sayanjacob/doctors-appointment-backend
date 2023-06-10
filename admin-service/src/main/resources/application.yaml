@@ -1,0 +1,15 @@
+# Configuration file for admin-service
+server:
+  port: 8000
+spring:
+  application:
+    name: admin-service
+  datasource:
+    username: root
+    password: Ashish123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/spring_library
+  jpa:
+    hibernate:
+    ddl-auto: update
+    show-sql: true
