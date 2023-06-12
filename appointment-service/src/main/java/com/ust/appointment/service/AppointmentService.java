@@ -1,9 +1,9 @@
 package com.ust.appointment.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.ust.appointment.entity.Appointment;
-import com.ust.appointment.entity.Doctor;
 
 public interface AppointmentService {
 
@@ -13,5 +13,8 @@ public interface AppointmentService {
 	List<Appointment> viewAllAppointmentsByUser(Long userId);
 
 	void deleteAppointment(Long appointmentId);
+
+	Optional<Appointment> findByAppId(Long appointmentId);
+	Optional<List<Appointment>> findByDocIdAndUserId(Long DoctorId,Long userId);
 
 }

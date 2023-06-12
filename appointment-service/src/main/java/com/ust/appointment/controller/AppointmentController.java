@@ -3,6 +3,7 @@ package com.ust.appointment.controller;
 import com.ust.appointment.dto.AppointmentDto;
 import com.ust.appointment.dto.DtoMapper;
 import com.ust.appointment.dto.RequestDto;
+import com.ust.appointment.entity.Appointment;
 import com.ust.appointment.entity.Doctor;
 import com.ust.appointment.service.AppointmentService;
 import com.ust.appointment.service.DoctorServiceImpl;
@@ -39,6 +40,9 @@ public class AppointmentController {
     @GetMapping("/{userId}")
     public ResponseEntity<List<AppointmentDto>> appointmentsByUser(@PathVariable long userId) {
         var appointmentList = appointmentService.viewAllAppointmentsByUser(userId);
+        if(appointmentList.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
         List<AppointmentDto> appointmentDtoList = appointmentList.stream()
                 .map(dtoMapper::convertToDto)
                 .toList();
@@ -47,8 +51,25 @@ public class AppointmentController {
     }
     @DeleteMapping("/{appointmentId}")
     public ResponseEntity<Void> deleteAppointment(@PathVariable long appointmentId){
+        var res=appointmentService.findByAppId(appointmentId);
+        if(res.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
         appointmentService.deleteAppointment(appointmentId);
         return ResponseEntity.ok().build();
+    }
+    @GetMapping("/find/{appointmentId}")
+    public ResponseEntity<Appointment> findByAppointmentId(@PathVariable long appointmentId){
+        var res=appointmentService.findByAppId(appointmentId);
+        return res.map(appointment -> ResponseEntity.ok().body(appointment)).orElseGet(() -> ResponseEntity.noContent().build());
+    }
+    @GetMapping("/find/{doctorId}/{userId}")
+    public ResponseEntity<List<Appointment>> findByDocIdandUsId(@PathVariable long doctorId,@PathVariable long userId){
+        var res=appointmentService.findByDocIdAndUserId(doctorId,userId);
+        if(res.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(res.get());
     }
 }
 
