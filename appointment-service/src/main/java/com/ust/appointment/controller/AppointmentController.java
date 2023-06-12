@@ -19,12 +19,10 @@ import java.util.List;
 public class AppointmentController {
 
 
-    private DoctorServiceImpl doctorServiceImpl;
-    private AppointmentService appointmentService;
+    private final AppointmentService appointmentService;
     private final DtoMapper dtoMapper;
 
     public AppointmentController(DoctorServiceImpl doctorServiceImpl, AppointmentService appointmentService, DtoMapper dtoMapper) {
-        this.doctorServiceImpl = doctorServiceImpl;
         this.appointmentService = appointmentService;
         this.dtoMapper = dtoMapper;
     }
@@ -42,10 +40,15 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentDto>> appointmentsByUser(@PathVariable long userId) {
         var appointmentList = appointmentService.viewAllAppointmentsByUser(userId);
         List<AppointmentDto> appointmentDtoList = appointmentList.stream()
-                .map(appointment -> dtoMapper.convertToDto(appointment))
+                .map(dtoMapper::convertToDto)
                 .toList();
         return ResponseEntity.status(HttpStatus.FOUND).body(appointmentDtoList);
 
+    }
+    @DeleteMapping("/{appointmentId}")
+    public ResponseEntity<Void> deleteAppointment(@PathVariable long appointmentId){
+        appointmentService.deleteAppointment(appointmentId);
+        return ResponseEntity.ok().build();
     }
 }
 

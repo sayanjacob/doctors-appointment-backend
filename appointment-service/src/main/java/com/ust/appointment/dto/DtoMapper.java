@@ -3,28 +3,17 @@ package com.ust.appointment.dto;
 import com.ust.appointment.entity.Appointment;
 import com.ust.appointment.entity.Doctor;
 import com.ust.appointment.service.DoctorServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 @Component
 public class DtoMapper {
     DoctorServiceImpl doctorServiceImpl;
-
-
     public DtoMapper(DoctorServiceImpl doctorServiceImpl) {
         this.doctorServiceImpl = doctorServiceImpl;
     }
-
-
-
     public AppointmentDto createAppointmentDto(RequestDto requestDto){
         Doctor doc=doctorServiceImpl.findById(requestDto.doctorId());
 
-        AppointmentDto appointmentDto=new AppointmentDto(
+        return new AppointmentDto(
         requestDto.appointmentId(),
         requestDto.userId(),
         requestDto.appointmentDate(),
@@ -33,9 +22,7 @@ public class DtoMapper {
         doc.getDoctorName(),
         doc.getDepartment(),
         requestDto.userName(),
-        requestDto.details()) ;
-
-        return appointmentDto;
+        requestDto.details());
 
     }
     public Appointment convertToEntity(AppointmentDto appointmentDto){
