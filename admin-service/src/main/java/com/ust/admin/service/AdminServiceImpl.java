@@ -38,7 +38,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Optional<Doctor> findById(int doctorId) {
+    public Optional<Doctor> findById(Long doctorId) {
        return doctorRepository.findById(doctorId);
 
     }
@@ -46,5 +46,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Doctor> findByDept(String department) {
         return doctorRepository.findByDepartment(department);
+    }
+
+    @Override
+    public List<Doctor> findAll() {
+        return doctorRepository.findAll();
     }
 }

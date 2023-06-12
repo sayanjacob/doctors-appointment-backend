@@ -7,11 +7,12 @@ public record AppointmentDto(
         long appointmentId,
         long userId,
         LocalDate appointmentDate,
-         LocalTime appointTime,
-         long doctorId,
-         long doctorName,
-         long department,
-         String userName,
-         String details) {
+        LocalTime appointTime,
+        long doctorId,
+        String doctorName,
+        String department,
+        String userName,
+        String details) {
+
 
 }

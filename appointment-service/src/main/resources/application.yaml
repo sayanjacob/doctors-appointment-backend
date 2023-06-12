@@ -1,6 +1,6 @@
 # Configuration file for appointment-service
 server:
-  port: 8100
+  port: 8200
 spring:
   application:
     name: appointment-service
@@ -8,15 +8,11 @@ spring:
     username: root
     password: Ashish123
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/spring_library
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/appointment
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
 
 

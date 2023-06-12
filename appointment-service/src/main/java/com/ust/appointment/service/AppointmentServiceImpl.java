@@ -3,48 +3,40 @@ package com.ust.appointment.service;
 import java.util.Arrays;
 import java.util.List;
 
-import com.netflix.discovery.converters.Auto;
+import com.ust.appointment.dto.AppointmentDto;
 import com.ust.appointment.entity.Doctor;
+import com.ust.appointment.repository.AppointmentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ust.appointment.entity.AppointmentEntity;
+import com.ust.appointment.entity.Appointment;
 import org.springframework.web.client.RestTemplate;
-
-import javax.persistence.Access;
-import javax.print.Doc;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
 	@Autowired
 	private RestTemplate restTemplate;
+	@Autowired
+	private AppointmentRepo appointmentRepo;
+	@Autowired
+	private DoctorServiceImpl doctorService;
+
+
 	@Override
-	public AppointmentEntity createAppointment(AppointmentEntity appointmentEntity) {
-		
-		return null;
+	public Appointment createAppointment(Appointment appointment) {
+		return appointmentRepo.save(appointment);
 	}
 
 	@Override
-	public List<AppointmentEntity> viewAllAppointmentsByUser(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Appointment> viewAllAppointmentsByUser(Long userId) {
+		return appointmentRepo.findAppointmentByUserId(userId);
 	}
 
 	@Override
 	public void deleteAppointment(Long appointmentId) {
-		// TODO Auto-generated method stub
-		
+	appointmentRepo.deleteById(appointmentId);
 	}
 
 
-	@Override
-	public List<Doctor> findDoctorByDepartment(String department) {
-		var response = restTemplate.getForEntity("http://localhost:8000/admin/search",
-				Doctor[].class, department);
-		if (response.hasBody()) {
-			return Arrays.stream(response.getBody()).toList();
-		}
-		return List.of();
-	}
 
 }

@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class Doctor {
 
 
-    private int doctorId;
+    private Long doctorId;
     private String doctorName;
     private String department;
 

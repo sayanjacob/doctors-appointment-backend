@@ -11,6 +11,7 @@ public interface AdminService {
     Doctor updateDoctor(Doctor doctor);
     void deleteDoctor(Doctor doctor);
     Optional<Doctor> findDoctor(String doctorName);
-    Optional<Doctor> findById(int doctorId);
+    Optional<Doctor> findById(Long doctorId);
     List<Doctor> findByDept(String department);
+     List<Doctor> findAll();
 }

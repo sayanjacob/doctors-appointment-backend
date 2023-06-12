@@ -51,9 +51,9 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(docDto);
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<DoctorDto> searchDoctorByName(@PathVariable String name) {
-        Optional<Doctor> doc = adminService.findDoctor(name);
+    @GetMapping("/{doctorName}")
+    public ResponseEntity<DoctorDto> searchDoctorByName(@PathVariable String doctorName) {
+        Optional<Doctor> doc = adminService.findDoctor(doctorName);
         if (doc.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -72,19 +72,33 @@ public class AdminController {
     }
 
 
-    @GetMapping("/search")
-    public ResponseEntity<List<DoctorDto>> searchDoctors(@RequestParam("department") String department) {
+    @GetMapping("/search/{department}")
+    public ResponseEntity<List<DoctorDto>> searchDoctors(@PathVariable String department) {
 
         List<Doctor> doctorList = adminService.findByDept(department);
         List<DoctorDto> doctorDtoList = doctorList.stream()
-                .map(doctor -> convertToDto(doctor))
+                .map(this::convertToDto)
                 .toList();
         return ResponseEntity.status(HttpStatus.FOUND).body(doctorDtoList);
 
     }
 
-    @GetMapping("/id")
-    public  ResponseEntity<Doctor> findDoctorById(@PathVariable int id){
-        return  ResponseEntity.status(HttpStatus.FOUND).body(adminService.findById(id).get());
+    @GetMapping("/find/{doctorId}")
+    public  ResponseEntity<Doctor> findDoctorById(@PathVariable Long doctorId){
+        var doc=adminService.findById(doctorId);
+        if(doc.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return  ResponseEntity.status(HttpStatus.FOUND).body(doc.get());
+    }
+    @GetMapping("/findall")
+    public  ResponseEntity<List<DoctorDto>> findAllDoctor(){
+        List<DoctorDto> doctorDtoList =adminService.findAll()
+                .stream()
+                .map(this::convertToDto)
+                .toList();
+        return ResponseEntity.status(HttpStatus.OK).body(doctorDtoList);
+
     }
 }
