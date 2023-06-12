@@ -19,12 +19,15 @@ public class AppointmentDtoMapper {
         appointmentEntity.setUserName(appointmentDto.userName());
         appointmentEntity.setDoctorid(appointmentDto.doctorId());
         appointmentEntity.setDoctorName(appointmentDto.doctorName());
+        return  appointmentEntity;
+
 
     }
 
 
     public AppointmentDto convertToDto(AppointmentEntity appointmentEntity){
-        AppointmentDto appointmentDto=new AppointmentDto(
+
+        return new AppointmentDto(
                 appointmentEntity.getAppointmentId(),
                 appointmentEntity.getUserId(),
                 appointmentEntity.getAppointmentDate(),
@@ -35,8 +38,6 @@ public class AppointmentDtoMapper {
                 appointmentEntity.getUserName(),
                 appointmentEntity.getDetails()
         );
-
-        return appointmentDto;
     }
 
 }

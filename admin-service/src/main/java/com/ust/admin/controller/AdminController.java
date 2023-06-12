@@ -77,9 +77,14 @@ public class AdminController {
 
         List<Doctor> doctorList = adminService.findByDept(department);
         List<DoctorDto> doctorDtoList = doctorList.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+                .map(doctor -> convertToDto(doctor))
+                .toList();
         return ResponseEntity.status(HttpStatus.FOUND).body(doctorDtoList);
 
+    }
+
+    @GetMapping("/id")
+    public  ResponseEntity<Doctor> findDoctorById(@PathVariable int id){
+        return  ResponseEntity.status(HttpStatus.FOUND).body(adminService.findById(id).get());
     }
 }

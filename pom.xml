@@ -12,7 +12,6 @@
         <module>review-service</module>
         <module>appointment-service</module>
         <module>admin-service</module>
-        <module>discovery-service</module>
 
     </modules>
 
