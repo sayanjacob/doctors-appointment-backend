@@ -15,9 +15,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> findAppointmentByDocIdAndUsId(Long doctorId,Long appointmentId) {
-        var response = restTemplate.getForEntity("http://localhost:8200/appointment//find/{doctorId}/{userId}",
-                Appointment[].class, doctorId,appointmentId);
+    public List<Appointment> findAppointmentByDocIdAndUsId(Long doctorId,Long userId) {
+        var response = restTemplate.getForEntity("http://localhost:8200/appointment/find/{doctorId}/{userId}",
+                Appointment[].class, doctorId,userId);
         if (response.hasBody()) {
             return Arrays.stream(response.getBody()).toList();
         }
