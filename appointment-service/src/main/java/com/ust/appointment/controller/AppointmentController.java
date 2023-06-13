@@ -63,12 +63,9 @@ public class AppointmentController {
         var res=appointmentService.findByAppId(appointmentId);
         return res.map(appointment -> ResponseEntity.ok().body(appointment)).orElseGet(() -> ResponseEntity.noContent().build());
     }
-    @GetMapping("/find/{doctorId}/{userId}")
-    public ResponseEntity<List<Appointment>> findByDocIdandUsId(@PathVariable long doctorId,@PathVariable long userId){
-        var res=appointmentService.findByDocIdAndUserId(doctorId,userId);
-        if(res.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
+    @GetMapping("/find/{userId}/{doctorId}")
+    public ResponseEntity<List<Appointment>> findByDocIdAndUsId(@PathVariable long doctorId,@PathVariable long userId){
+        var res=appointmentService.findByDocIdAndUserId(userId,doctorId);
         return ResponseEntity.ok().body(res.get());
     }
 }

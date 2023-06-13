@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -15,13 +15,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> findAppointmentByDocIdAndUsId(Long doctorId,Long userId) {
-        var response = restTemplate.getForEntity("http://localhost:8200/appointment/find/{doctorId}/{userId}",
-                Appointment[].class, doctorId,userId);
-        if (response.hasBody()) {
-            return Arrays.stream(response.getBody()).toList();
-        }
-        return List.of();
+    public Optional<Appointment> findAppointmentByDocIdAndUsId(Long userId,Long doctorId) {
+        var response = restTemplate.getForEntity("http://localhost:8200/appointment/find/{userId}/{doctorId}",
+                Appointment[].class,userId,doctorId);
+
+        return Arrays.stream(response.getBody()).findFirst();
 
     }
 }
