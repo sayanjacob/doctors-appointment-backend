@@ -25,36 +25,33 @@ public class DtoMapper {
             throw new RuntimeException();
         }
         else {
-            Review review=new Review(
-
-                    requestDto.getUserId(),
-                    requestDto.getDoctorId(),
-                    requestDto.getRating(),
-                    requestDto.getDescription()
-                    );
+            Review review=new Review();
+            review.setDoctorId(requestDto.getDoctorId());
+            review.setUserId(requestDto.getUserId());
+            review.setRating(requestDto.getRating());
+            review.setDescription(requestDto.getDescription());
+            return review;
         }
-
-
 
     }
 
-public ReviewDto convertToDto(Review review){
-    return new ReviewDto(
-            review.getReviewId(),
-            review.getUserId(),
-            review.getDoctorId(),
-            review.getRating(),
-            review.getDescription()
-    );
-}
+    public ReviewDto convertToDto(Review review){
+        return new ReviewDto(
+                review.getReviewId(),
+                review.getUserId(),
+                review.getDoctorId(),
+                review.getRating(),
+                review.getDescription()
+        );
+    }
 
-public Review convertToEntity(ReviewDto reviewDto){
-    return new Review(
-            reviewDto.reviewId(),
-            reviewDto.userId(),
-            reviewDto.doctorId(),
-            reviewDto.rating(),
-            reviewDto.description()
-    );
-}
+    public Review convertToEntity(ReviewDto reviewDto){
+        return new Review(
+                reviewDto.reviewId(),
+                reviewDto.userId(),
+                reviewDto.doctorId(),
+                reviewDto.rating(),
+                reviewDto.description()
+        );
+    }
 }

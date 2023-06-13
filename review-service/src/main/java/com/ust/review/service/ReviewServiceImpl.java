@@ -14,6 +14,7 @@ public class ReviewServiceImpl implements ReviewService{
     ReviewRepository reviewRepository;
     @Override
     public Review addReview(Review review) {
+
         return reviewRepository.save(review);
     }
 
@@ -25,6 +26,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public List<Review> viewAllReviewForDoctor(Long doctorId) {
+
         return reviewRepository.findAllByDoctorId(doctorId);
     }
 }
