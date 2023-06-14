@@ -22,51 +22,78 @@ public class ReviewController {
     AppointmentService appointmentService;
     DtoMapper dtoMapper;
 
-    public ReviewController(ReviewService reviewService, DtoMapper dtoMapper ,AppointmentService appointmentService) {
+    public ReviewController(ReviewService reviewService, DtoMapper dtoMapper, AppointmentService appointmentService) {
         this.reviewService = reviewService;
         this.dtoMapper = dtoMapper;
-        this.appointmentService=appointmentService;
+        this.appointmentService = appointmentService;
     }
 
-    @PostMapping()
-    public ResponseEntity<ReviewDto> createReview(@RequestBody RequestDto requestDto){
+    @PostMapping("/create")
+    public ResponseEntity<ReviewDto> createReview(@RequestBody RequestDto requestDto) {
 
-            Optional<Appointment> appointment = appointmentService.findAppointmentByDocIdAndUsId(
-                    requestDto.getUserId(),
-                    requestDto.getDoctorId()
-            );
-            Review review=new Review();
+        Optional<Appointment> appointment = appointmentService.findAppointmentByUsIdAndDocId(
 
-            if (appointment.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-            }
-            review.setDoctorId(requestDto.getDoctorId());
-            review.setUserId(requestDto.getUserId());
-            review.setRating(requestDto.getRating());
-            review.setDescription(requestDto.getDescription());
-            var request=reviewService.addReview(review);
+                requestDto.getUserId(),
+                requestDto.getDoctorId()
+        );
+
+        if (appointment.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        Review review = new Review();
+
+        review.setDoctorId(requestDto.getDoctorId());
+        review.setUserId(requestDto.getUserId());
+        review.setRating(requestDto.getRating());
+        review.setDescription(requestDto.getDescription());
+        var request = reviewService.addReview(review);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoMapper.convertToDto(request));
     }
 
 
     @GetMapping("/{reviewId}")
-    public ResponseEntity<ReviewDto> viewReview(@PathVariable Long reviewId){
-        var response=reviewService.viewReview(reviewId);
-        return response.map(review -> ResponseEntity.status(HttpStatus.OK)
-                .body(dtoMapper.convertToDto(review)))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT)
-                        .build());
+    public ResponseEntity<ReviewDto> viewReview(@PathVariable long reviewId) {
+        var req = reviewService.viewReview(reviewId);
+        if (req.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+        }
+        var response = dtoMapper.convertToDto(req.get());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 
     @GetMapping("/doctor/{doctorId}")
-    public ResponseEntity<List<ReviewDto>> reviewForDoctor(@PathVariable Long doctorId){
-        var response=reviewService.viewAllReviewForDoctor(doctorId);
-        if(response.isEmpty()){
+    public ResponseEntity<List<ReviewDto>> reviewForDoctor(@PathVariable long doctorId) {
+        var response = reviewService.viewAllReviewForDoctor(doctorId);
+        if (response.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
         }
-        var res=response.stream().map(review -> dtoMapper.convertToDto(review)).toList();
+        var res = response.stream().map(review -> dtoMapper.convertToDto(review)).toList();
         return ResponseEntity.status(HttpStatus.OK).body(res);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ReviewDto>> reviewForUser(@PathVariable long userId) {
+        var response = reviewService.viewAllReviewByUser(userId);
+        if (response.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+        }
+        var res = response.stream().map(review -> dtoMapper.convertToDto(review)).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+    }
+
+    @GetMapping("/findreviews/{userId}/{doctorId}")
+    public ResponseEntity<ReviewDto> reviewForDoctorByUser(@PathVariable long userId, @PathVariable long doctorId) {
+        var response = reviewService.viewByuserIdAndDoctorId(userId, doctorId);
+        if (response.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        var res =dtoMapper.convertToDto(response.get());
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+
     }
 }

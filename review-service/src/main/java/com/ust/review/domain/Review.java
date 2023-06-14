@@ -1,13 +1,13 @@
 package com.ust.review.domain;
 
 
-import jdk.jfr.Enabled;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+
 
 @Entity
 @Table(name = "Review")
@@ -18,9 +18,10 @@ import javax.persistence.*;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long reviewId;
-    private Long userId;
-    private Long doctorId;
+    private long reviewId;
+    private long userId;
+    private long doctorId;
+//    private long appointmentId;
     private int rating;
     private String description;
 }

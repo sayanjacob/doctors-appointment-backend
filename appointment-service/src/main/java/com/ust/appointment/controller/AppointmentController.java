@@ -23,15 +23,15 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
     private final DtoMapper dtoMapper;
 
-    public AppointmentController(DoctorServiceImpl doctorServiceImpl, AppointmentService appointmentService, DtoMapper dtoMapper) {
+    public AppointmentController(AppointmentService appointmentService, DtoMapper dtoMapper) {
         this.appointmentService = appointmentService;
         this.dtoMapper = dtoMapper;
     }
 
     @PostMapping("/create")
     public ResponseEntity<AppointmentDto> create(@RequestBody RequestDto requestDto) {
-        AppointmentDto appointmentDto = dtoMapper.createAppointmentDto(requestDto);
-        var request = dtoMapper.convertToEntity(appointmentDto);
+
+        var request = dtoMapper.createAppointment(requestDto);
         var response = dtoMapper.convertToDto(appointmentService.createAppointment(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -63,10 +63,14 @@ public class AppointmentController {
         var res=appointmentService.findByAppId(appointmentId);
         return res.map(appointment -> ResponseEntity.ok().body(appointment)).orElseGet(() -> ResponseEntity.noContent().build());
     }
-    @GetMapping("/find/{userId}/{doctorId}")
-    public ResponseEntity<List<Appointment>> findByDocIdAndUsId(@PathVariable long doctorId,@PathVariable long userId){
-        var res=appointmentService.findByDocIdAndUserId(userId,doctorId);
-        return ResponseEntity.ok().body(res.get());
+    @GetMapping("/findaps/{userId}/{doctorId}")
+    public ResponseEntity<List<Appointment>> findByUsIdAndDocId(@PathVariable long userId,@PathVariable long doctorId){
+
+        var res=appointmentService.findByuserIdAnddoctorId(userId,doctorId);
+        if (res.isEmpty())
+            return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok().body(res);
     }
 }
 

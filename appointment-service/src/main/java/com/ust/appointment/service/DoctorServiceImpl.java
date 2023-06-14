@@ -7,6 +7,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class DoctorServiceImpl implements DoctorService {
     RestTemplate restTemplate;
@@ -19,7 +21,9 @@ public class DoctorServiceImpl implements DoctorService {
     public Doctor findById(long doctorId) {
         var response = restTemplate.getForEntity("http://localhost:8000/admin/find/{doctorId}",
                 Doctor.class, doctorId);
-        return response.getBody();
+        //if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+
     }
 }
 

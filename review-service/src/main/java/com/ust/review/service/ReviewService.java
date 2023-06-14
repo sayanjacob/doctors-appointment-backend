@@ -8,7 +8,11 @@ import java.util.Optional;
 public interface ReviewService {
     Review addReview(Review review);
 
-    Optional<Review> viewReview(Long reviewId);
+    Optional<Review> viewReview(long reviewId);
 
-    List<Review> viewAllReviewForDoctor(Long doctorId);
+    List<Review> viewAllReviewForDoctor(long doctorId);
+
+    List<Review> viewAllReviewByUser(long userId);
+
+    Optional<Review> viewByuserIdAndDoctorId(long userId,long doctorId);
 }

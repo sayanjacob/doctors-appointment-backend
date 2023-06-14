@@ -2,6 +2,7 @@ package com.ust.admin.controller;
 
 import com.ust.admin.domain.Doctor;
 import com.ust.admin.dto.DoctorDto;
+import com.ust.admin.dto.RequestDto;
 import com.ust.admin.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin")
 @CrossOrigin
 public class AdminController {
+    @Autowired
+    private AdminService adminService;
+
     public Doctor convertToEntity(DoctorDto doctorDto) {
         Doctor doctor = new Doctor();
         doctor.setDoctorId(doctorDto.doctorId());
@@ -26,16 +30,20 @@ public class AdminController {
     }
 
     public DoctorDto convertToDto(Doctor doctor) {
-        DoctorDto doctorDto = new DoctorDto(doctor.getDoctorId(), doctor.getDoctorName(), doctor.getDepartment());
-        return doctorDto;
+        return new DoctorDto(
+                doctor.getDoctorId(),
+                doctor.getDoctorName(),
+                doctor.getDepartment()
+        );}
+    public Doctor createDoctorObject(RequestDto requestDto){
+        Doctor doctor=new Doctor();
+        doctor.setDoctorName(requestDto.doctorName());
+        doctor.setDepartment(requestDto.department());
+        return doctor;
     }
-
-    @Autowired
-    AdminService adminService;
-
     @PostMapping("")
-    public ResponseEntity<DoctorDto> createDoctor(@RequestBody DoctorDto doctorDto) {
-        final var doc = convertToEntity(doctorDto);
+    public ResponseEntity<DoctorDto> createDoctor(@RequestBody RequestDto requestDto) {
+        Doctor doc=createDoctorObject(requestDto);
         adminService.createDoctor(doc);
         DoctorDto doctorDto1 = convertToDto(doc);
         return ResponseEntity.status(HttpStatus.CREATED).body(doctorDto1);

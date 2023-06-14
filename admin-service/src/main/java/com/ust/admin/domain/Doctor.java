@@ -1,12 +1,11 @@
 package com.ust.admin.domain;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
 
 @Entity
 @Table
@@ -17,6 +16,7 @@ import javax.persistence.Table;
 public class Doctor {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long doctorId;
     private String doctorName;
     private String department;

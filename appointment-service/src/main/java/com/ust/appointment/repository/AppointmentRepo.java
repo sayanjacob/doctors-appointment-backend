@@ -5,11 +5,17 @@ import org.springframework.stereotype.Repository;
 
 import com.ust.appointment.entity.Appointment;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AppointmentRepo extends JpaRepository<Appointment, Long> {
-    List<Appointment> findAppointmentByUserId(long id);
-    List<Appointment> findAppointmentByUserIdAndDoctorId(Long userId,Long doctorId);
+    List<Appointment> findAllByUserId(long userId);
+    Optional<Appointment> findByUserId(long userId);
+    Optional<Appointment> findByDoctorIdAndAppointmentDateAndAppointmentTime(long doctorId,LocalDate appointmentDate,LocalTime appointmentTime);
+
+    List<Appointment> findAppointmentByUserIdAndDoctorId(long userId,long doctorId);
 
 }

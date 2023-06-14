@@ -5,5 +5,5 @@ import com.ust.review.domain.Appointment;
 import java.util.Optional;
 
 public interface AppointmentService {
-    Optional<Appointment> findAppointmentByDocIdAndUsId(Long doctorId, Long appointmentId);
+    Optional<Appointment> findAppointmentByUsIdAndDocId(Long doctorId, Long appointmentId);
 }

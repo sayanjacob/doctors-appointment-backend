@@ -10,20 +10,18 @@ public class DtoMapper {
     public DtoMapper(DoctorServiceImpl doctorServiceImpl) {
         this.doctorServiceImpl = doctorServiceImpl;
     }
-    public AppointmentDto createAppointmentDto(RequestDto requestDto){
+    public Appointment createAppointment(RequestDto requestDto){
         Doctor doc=doctorServiceImpl.findById(requestDto.doctorId());
-
-        return new AppointmentDto(
-        requestDto.appointmentId(),
-        requestDto.userId(),
-        requestDto.appointmentDate(),
-        requestDto.appointTime(),
-        requestDto.doctorId(),
-        doc.getDoctorName(),
-        doc.getDepartment(),
-        requestDto.userName(),
-        requestDto.details());
-
+        Appointment appointment=new Appointment();
+        appointment.setAppointmentDate(requestDto.appointmentDate());
+        appointment.setUserId(requestDto.userId());
+        appointment.setAppointmentTime(requestDto.appointmentTime());
+        appointment.setDoctorId(requestDto.doctorId());
+        appointment.setDoctorName(doc.getDoctorName());
+        appointment.setDepartment(doc.getDepartment());
+        appointment.setUserName(requestDto.userName());
+        appointment.setDetails(requestDto.details());
+        return appointment;
     }
     public Appointment convertToEntity(AppointmentDto appointmentDto){
         Appointment appointment=new Appointment();
@@ -31,7 +29,7 @@ public class DtoMapper {
 
         appointment.setAppointmentId(appointmentDto.appointmentId());
         appointment.setUserId(appointmentDto.userId());
-        appointment.setAppointTime(appointmentDto.appointTime());
+        appointment.setAppointmentTime(appointmentDto.appointmentTime());
         appointment.setAppointmentDate(appointmentDto.appointmentDate());
         appointment.setDepartment(appointmentDto.department());
         appointment.setDetails(appointmentDto.details());
@@ -50,7 +48,7 @@ public class DtoMapper {
                 appointment.getAppointmentId(),
                 appointment.getUserId(),
                 appointment.getAppointmentDate(),
-                appointment.getAppointTime(),
+                appointment.getAppointmentTime(),
                 appointment.getDoctorId(),
                 appointment.getDoctorName(),
                 appointment.getDepartment(),
