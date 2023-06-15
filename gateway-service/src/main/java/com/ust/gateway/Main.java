@@ -1,4 +1,4 @@
-package com.ust.admin;
+package com.ust.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
