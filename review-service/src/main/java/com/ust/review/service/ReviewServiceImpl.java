@@ -43,11 +43,11 @@ public class ReviewServiceImpl implements ReviewService{
 
         @Override
         public List<Review> viewAllReviewForDoctor(long doctorId) throws ReviewNotFoundException {
-            var req = reviewRepository.findAllByDoctorId(doctorId);
+            var req = reviewRepository.findAllReviewsByDoctorId(doctorId);
             if (req.isEmpty()) {
                 throw new ReviewNotFoundException("Reviews not found");
             } else {
-                return reviewRepository.findAllByDoctorId(doctorId);
+                return req;
             }
         }
 

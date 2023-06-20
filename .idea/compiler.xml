@@ -9,17 +9,20 @@
         <outputRelativeToContentRoot value="true" />
         <module name="discovery-server" />
         <module name="appointment-service" />
-        <module name="admin-service" />
         <module name="review-service" />
         <module name="security-service" />
+        <module name="doctor-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="admin-service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="admin-service" options="-parameters" />
       <module name="appointment-service" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
+      <module name="doctor-service" options="-parameters" />
       <module name="review-service" options="-parameters" />
       <module name="security-service" options="-parameters" />
     </option>

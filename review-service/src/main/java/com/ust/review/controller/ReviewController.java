@@ -3,10 +3,12 @@ package com.ust.review.controller;
 
 import com.ust.review.domain.Appointment;
 import com.ust.review.domain.Review;
+import com.ust.review.dto.DocRatingDto;
 import com.ust.review.dto.DtoMapper;
 import com.ust.review.dto.RequestDto;
 import com.ust.review.dto.ReviewDto;
 import com.ust.review.service.AppointmentService;
+import com.ust.review.service.DoctorService;
 import com.ust.review.service.ReviewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class ReviewController {
     ReviewService reviewService;
     AppointmentService appointmentService;
+    DoctorService doctorService;
     DtoMapper dtoMapper;
 
     public ReviewController(ReviewService reviewService, DtoMapper dtoMapper, AppointmentService appointmentService) {
@@ -96,4 +99,23 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(res);
 
     }
+
+
+    @GetMapping("/average/{doctorId}")
+    public ResponseEntity<DocRatingDto> doctorRatings(@PathVariable long doctorId){
+        var req=reviewService.viewAllReviewForDoctor(doctorId);
+        var doc=doctorService.findById(doctorId);
+        int avRating = (int) req.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+        DocRatingDto docRatingDto= new DocRatingDto(
+                doctorId,
+                doc.getDoctorName(),
+                doc.getDepartment(),
+                avRating,
+                req);
+        return ResponseEntity.ok().body(docRatingDto);
+    }
+
 }

@@ -11,7 +11,7 @@
     <modules>
         <module>review-service</module>
         <module>appointment-service</module>
-        <module>admin-service</module>
+        <module>doctor-service</module>
         <module>discovery-server</module>
         <module>gateway-service</module>
         <module>security-service</module>

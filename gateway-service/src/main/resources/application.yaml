@@ -2,7 +2,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /book
+    context-path: /doc
 logging:
   level:
     org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
@@ -35,8 +35,8 @@ spring:
               - OPTIONS
               - TRACE
       routes:
-        - id: admin-service
-          uri: lb://admin-service
+        - id: doctor-service
+          uri: lb://doctor-service
           predicates:
             - Path=/admin/**
             - Method=GET,POST,PUT,DELETE
