@@ -67,13 +67,13 @@ public class DoctorController {
         return ResponseEntity.status(HttpStatus.FOUND).body(docDto);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<Void> deleteDoctor(@RequestBody DoctorDto doctorDto) {
-        final var doc = convertToEntity(doctorDto);
-        if (doctorService.findById(doc.getDoctorId()).isEmpty()) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDoctor(@PathVariable long id) {
+        final var doc = doctorService.findById(id);
+        if (doc.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        doctorService.deleteDoctor(doc);
+        doctorService.deleteDoctor(doc.get());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

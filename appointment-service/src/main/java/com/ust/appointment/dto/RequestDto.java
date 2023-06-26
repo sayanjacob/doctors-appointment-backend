@@ -10,8 +10,8 @@ import java.time.LocalTime;
 
 public record RequestDto(
         long userId,
-        LocalDate appointmentDate,
-        LocalTime appointmentTime,
+        String appointmentDate,
+        String appointmentTime,
         long doctorId,
         String userName,
         String details

@@ -10,6 +10,7 @@
         <module name="discovery-server" />
         <module name="appointment-service" />
         <module name="review-service" />
+        <module name="gateway-service" />
         <module name="security-service" />
         <module name="doctor-service" />
       </profile>
@@ -23,6 +24,7 @@
       <module name="appointment-service" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
       <module name="doctor-service" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
       <module name="review-service" options="-parameters" />
       <module name="security-service" options="-parameters" />
     </option>

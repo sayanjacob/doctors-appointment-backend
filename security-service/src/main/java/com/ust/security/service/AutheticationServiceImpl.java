@@ -39,7 +39,7 @@ public class AutheticationServiceImpl implements AuthenticationService {
                 .build();
         userRepository.save(user);
         var token = jwtService.generateToken(Map.of("roles", user.getRole()), user);
-        return new AuthenticationResponse(token);
+        return new AuthenticationResponse(token,user.getUserId());
     }
 
     @Override
@@ -49,6 +49,6 @@ public class AutheticationServiceImpl implements AuthenticationService {
         var user = userRepository.findByEmail(request.email()).orElseThrow();
         var authorities = user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.joining(""));
-        return new AuthenticationResponse(jwtService.generateToken(Map.of("roles", authorities),user));
+        return new AuthenticationResponse(jwtService.generateToken(Map.of("roles", authorities),user),user.getUserId());
     }
 }

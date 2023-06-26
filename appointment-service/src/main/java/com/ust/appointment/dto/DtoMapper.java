@@ -4,6 +4,10 @@ import com.ust.appointment.entity.Appointment;
 import com.ust.appointment.entity.Doctor;
 import com.ust.appointment.service.DoctorServiceImpl;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Component
 public class DtoMapper {
     DoctorServiceImpl doctorServiceImpl;
@@ -13,9 +17,9 @@ public class DtoMapper {
     public Appointment createAppointment(RequestDto requestDto){
         Doctor doc=doctorServiceImpl.findById(requestDto.doctorId());
         Appointment appointment=new Appointment();
-        appointment.setAppointmentDate(requestDto.appointmentDate());
+        appointment.setAppointmentDate(LocalDate.parse(requestDto.appointmentDate()));
         appointment.setUserId(requestDto.userId());
-        appointment.setAppointmentTime(requestDto.appointmentTime());
+        appointment.setAppointmentTime(LocalTime.parse(requestDto.appointmentTime()));
         appointment.setDoctorId(requestDto.doctorId());
         appointment.setDoctorName(doc.getDoctorName());
         appointment.setDepartment(doc.getDepartment());
