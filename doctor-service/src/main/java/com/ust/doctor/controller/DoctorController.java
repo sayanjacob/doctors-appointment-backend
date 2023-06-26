@@ -51,7 +51,7 @@ public class DoctorController {
     public ResponseEntity<DoctorDto> updateDoctor(@RequestBody DoctorDto doctorDto) {
         final var doc = convertToEntity(doctorDto);
         if (doctorService.findById(doc.getDoctorId()).isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         final var docDto = convertToDto(doctorService.updateDoctor(doc));
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(docDto);
@@ -61,7 +61,7 @@ public class DoctorController {
     public ResponseEntity<DoctorDto> searchDoctorByName(@PathVariable String doctorName) {
         Optional<Doctor> doc = doctorService.findDoctor(doctorName);
         if (doc.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         final var docDto = convertToDto(doc.get());
         return ResponseEntity.status(HttpStatus.FOUND).body(docDto);
@@ -71,7 +71,7 @@ public class DoctorController {
     public ResponseEntity<Void> deleteDoctor(@PathVariable long id) {
         final var doc = doctorService.findById(id);
         if (doc.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         doctorService.deleteDoctor(doc.get());
         return ResponseEntity.status(HttpStatus.OK).build();

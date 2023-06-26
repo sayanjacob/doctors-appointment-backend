@@ -39,12 +39,13 @@ public class AutheticationServiceImpl implements AuthenticationService {
                 .build();
         userRepository.save(user);
         var token = jwtService.generateToken(Map.of("roles", user.getRole()), user);
+
         return new AuthenticationResponse(token,user.getUserId());
     }
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        log.warn("autheticate");
+        log.warn("Authenticating");
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         var user = userRepository.findByEmail(request.email()).orElseThrow();
         var authorities = user.getAuthorities().stream()
