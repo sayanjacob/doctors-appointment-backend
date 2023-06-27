@@ -115,7 +115,7 @@ public class ReviewController {
                 doc.getDepartment(),
                 avRating,
                 req);
-        return ResponseEntity.ok().body(docRatingDto);
+        return ResponseEntity.status(HttpStatus.OK).body(docRatingDto);
     }
 
 }
