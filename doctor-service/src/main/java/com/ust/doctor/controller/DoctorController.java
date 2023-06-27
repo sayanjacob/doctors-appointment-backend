@@ -64,7 +64,7 @@ public class DoctorController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         final var docDto = convertToDto(doc.get());
-        return ResponseEntity.status(HttpStatus.FOUND).body(docDto);
+        return ResponseEntity.status(HttpStatus.OK).body(docDto);
     }
 
     @DeleteMapping("/{id}")
