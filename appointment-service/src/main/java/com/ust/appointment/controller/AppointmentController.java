@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/appointment")
+@CrossOrigin
 public class AppointmentController {
 
 

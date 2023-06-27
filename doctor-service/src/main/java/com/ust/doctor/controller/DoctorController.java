@@ -44,7 +44,7 @@ public class DoctorController {
         Doctor doc=createDoctorObject(requestDto);
         doctorService.createDoctor(doc);
         DoctorDto doctorDto1 = convertToDto(doc);
-        return ResponseEntity.status(HttpStatus.CREATED).body(doctorDto1);
+        return ResponseEntity.status(HttpStatus.OK).body(doctorDto1);
     }
 
     @PutMapping("")
@@ -54,7 +54,7 @@ public class DoctorController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         final var docDto = convertToDto(doctorService.updateDoctor(doc));
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(docDto);
+        return ResponseEntity.status(HttpStatus.OK).body(docDto);
     }
 
     @GetMapping("/{doctorName}")
