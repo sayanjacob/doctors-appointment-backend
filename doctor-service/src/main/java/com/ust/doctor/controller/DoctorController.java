@@ -85,7 +85,7 @@ public class DoctorController {
         List<DoctorDto> doctorDtoList = doctorList.stream()
                 .map(this::convertToDto)
                 .toList();
-        return ResponseEntity.status(HttpStatus.FOUND).body(doctorDtoList);
+        return ResponseEntity.status(HttpStatus.OK).body(doctorDtoList);
 
     }
 
@@ -96,7 +96,7 @@ public class DoctorController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
-        return  ResponseEntity.status(HttpStatus.FOUND).body(doc.get());
+        return  ResponseEntity.status(HttpStatus.OK).body(doc.get());
     }
     @GetMapping("/findall")
     public  ResponseEntity<List<DoctorDto>> findAllDoctor(){
