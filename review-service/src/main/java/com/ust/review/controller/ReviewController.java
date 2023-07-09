@@ -1,56 +1,40 @@
 package com.ust.review.controller;
 
 
-import com.ust.review.domain.Appointment;
 import com.ust.review.domain.Review;
 import com.ust.review.dto.DocRatingDto;
 import com.ust.review.dto.DtoMapper;
-import com.ust.review.dto.RequestDto;
 import com.ust.review.dto.ReviewDto;
-import com.ust.review.service.AppointmentService;
-import com.ust.review.service.DoctorService;
 import com.ust.review.service.ReviewService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/review")
+@RequiredArgsConstructor
 public class ReviewController {
-    ReviewService reviewService;
-    AppointmentService appointmentService;
-    DoctorService doctorService;
-    DtoMapper dtoMapper;
+    private final ReviewService reviewService;
+    private final DtoMapper dtoMapper;
 
-    public ReviewController(ReviewService reviewService, DtoMapper dtoMapper, AppointmentService appointmentService) {
-        this.reviewService = reviewService;
-        this.dtoMapper = dtoMapper;
-        this.appointmentService = appointmentService;
+
+
+    @GetMapping("/check/{id}")
+    public ResponseEntity<Boolean> checkForExisting(@PathVariable int id) {
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(reviewService.checkAlreadyExist(id));
     }
 
+
     @PostMapping("/create")
-    public ResponseEntity<ReviewDto> createReview(@RequestBody RequestDto requestDto) {
+    public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewDto reviewDto) {
 
-        Optional<Appointment> appointment = appointmentService.findAppointmentByUsIdAndDocId(
 
-                requestDto.getUserId(),
-                requestDto.getDoctorId()
-        );
-
-        if (appointment.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-
-        Review review = new Review();
-
-        review.setDoctorId(requestDto.getDoctorId());
-        review.setUserId(requestDto.getUserId());
-        review.setRating(requestDto.getRating());
-        review.setDescription(requestDto.getDescription());
-        var request = reviewService.addReview(review);
+        var request = reviewService.addReview(dtoMapper.convertToEntity(reviewDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoMapper.convertToDto(request));
     }
 
@@ -91,30 +75,21 @@ public class ReviewController {
 
     @GetMapping("/findreviews/{userId}/{doctorId}")
     public ResponseEntity<ReviewDto> reviewForDoctorByUser(@PathVariable long userId, @PathVariable long doctorId) {
-        var response = reviewService.viewByuserIdAndDoctorId(userId, doctorId);
+        var response = reviewService.viewByUserIdAndDoctorId(userId, doctorId);
         if (response.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        var res =dtoMapper.convertToDto(response.get());
+        var res = dtoMapper.convertToDto(response.get());
         return ResponseEntity.status(HttpStatus.OK).body(res);
 
     }
 
 
     @GetMapping("/average/{doctorId}")
-    public ResponseEntity<DocRatingDto> doctorRatings(@PathVariable long doctorId){
-        var req=reviewService.viewAllReviewForDoctor(doctorId);
-        var doc=doctorService.findById(doctorId);
-        int avRating = (int) req.stream()
-                .mapToInt(Review::getRating)
-                .average()
-                .orElse(0.0);
-        DocRatingDto docRatingDto= new DocRatingDto(
-                doctorId,
-                doc.getDoctorName(),
-                doc.getDepartment(),
-                avRating,
-                req);
+    public ResponseEntity<DocRatingDto> doctorRatings(@PathVariable long doctorId) {
+        var req = reviewService.viewAllReviewForDoctor(doctorId);
+        int avRating = (int) req.stream().mapToInt(Review::getRating).average().orElse(0.0);
+        DocRatingDto docRatingDto = new DocRatingDto(avRating);
         return ResponseEntity.status(HttpStatus.OK).body(docRatingDto);
     }
 

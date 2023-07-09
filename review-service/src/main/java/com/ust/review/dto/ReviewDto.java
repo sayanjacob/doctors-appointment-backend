@@ -1,9 +1,10 @@
 package com.ust.review.dto;
 
 public record ReviewDto(
-        Long reviewId,
-        Long userId,
-        Long doctorId,
+        long reviewId,
+        long userId,
+        long doctorId,
+        long appointmentId,
         int rating,
         String description) {
 }

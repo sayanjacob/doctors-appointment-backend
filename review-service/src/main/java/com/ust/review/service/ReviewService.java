@@ -1,6 +1,7 @@
 package com.ust.review.service;
 
 import com.ust.review.domain.Review;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +15,6 @@ public interface ReviewService {
 
     List<Review> viewAllReviewByUser(long userId);
 
-    Optional<Review> viewByuserIdAndDoctorId(long userId,long doctorId);
+    Optional<Review> viewByUserIdAndDoctorId(long userId,long doctorId);
+    Boolean checkAlreadyExist(long appointmentId);
 }

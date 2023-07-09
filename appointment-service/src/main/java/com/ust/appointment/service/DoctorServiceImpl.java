@@ -19,7 +19,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor findById(long doctorId) {
-        var response = restTemplate.getForEntity("http://localhost:8000/admin/find/{doctorId}",
+        var response = restTemplate.getForEntity("http://DOCTOR-SERVICE/admin/find/{doctorId}",
                 Doctor.class, doctorId);
         //if (response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();

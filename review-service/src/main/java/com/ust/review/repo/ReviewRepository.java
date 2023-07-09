@@ -13,4 +13,5 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
      List<Review> findAllReviewsByDoctorId(long doctorId);
      Optional<Review> findReviewByUserIdAndDoctorId(long userId, long doctorId );
      List<Review> findReviewsByUserId(long userId);
+      Optional<Review> findReviewsByAppointmentId(long appointmentId);
 }

@@ -21,7 +21,7 @@ public class Review {
     private long reviewId;
     private long userId;
     private long doctorId;
-//    private long appointmentId;
+    private long appointmentId;
     private int rating;
     private String description;
 }

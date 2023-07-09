@@ -1,6 +1,9 @@
 package com.ust.security.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,16 +25,23 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
 
+    @NotEmpty(message = "First name is required")
     private String firstName;
 
+    @NotEmpty(message = "last name is required")
     private String lastName;
 
+    @NotEmpty(message = "Email is required")
+    @Email(message = "Invalid email address")
+    @Pattern(regexp = ".*[a-zA-Z]\\.com$", message = "Email must be of format @abc.com")
     private String email;
 
+    @NotEmpty(message = "Password is required")
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
